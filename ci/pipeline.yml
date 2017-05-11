@@ -1,0 +1,113 @@
+---
+jobs:
+- name: run-cert-checker
+  plan:
+  - get: schedule
+    trigger: true
+  - get: master-bosh-root-cert
+  - get: cert-check-src
+  - aggregate:
+    - task: run-cert-checker-master-bosh
+      file: cert-check-src/check.yml
+      params:
+        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
+        BOSH_ENVIRONMENT: {{master-bosh-target}}
+        BOSH_USERNAME: {{master-bosh-username}}
+        BOSH_PASSWORD: {{master-bosh-password}}
+        SLACK_WEBHOOK: {{slack-webhook-url}}
+        SLACK_CHANNEL: {{slack-channel}}
+        AWS_DEFAULT_REGION: {{aws-region}}
+        NO_ELB_CHECK: 1
+    - task: run-cert-checker-tooling-bosh
+      file: cert-check-src/check.yml
+      params:
+        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
+        BOSH_ENVIRONMENT: {{tooling-bosh-target}}
+        BOSH_USERNAME: {{tooling-bosh-username}}
+        BOSH_PASSWORD: {{tooling-bosh-password}}
+        SLACK_WEBHOOK: {{slack-webhook-url}}
+        SLACK_CHANNEL: {{slack-channel}}
+        AWS_DEFAULT_REGION: {{aws-region}}
+        NO_ELB_CHECK: 1
+    - task: run-cert-checker-dev-bosh
+      file: cert-check-src/check.yml
+      params:
+        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
+        BOSH_ENVIRONMENT: {{dev-bosh-target}}
+        BOSH_USERNAME: {{dev-bosh-username}}
+        BOSH_PASSWORD: {{dev-bosh-password}}
+        SLACK_WEBHOOK: {{slack-webhook-url}}
+        SLACK_CHANNEL: {{slack-channel}}
+        AWS_DEFAULT_REGION: {{aws-region}}
+        NO_ELB_CHECK: 1
+    - task: run-cert-checker-staging-bosh
+      file: cert-check-src/check.yml
+      params:
+        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
+        BOSH_ENVIRONMENT: {{staging-bosh-target}}
+        BOSH_USERNAME: {{staging-bosh-username}}
+        BOSH_PASSWORD: {{staging-bosh-password}}
+        SLACK_WEBHOOK: {{slack-webhook-url}}
+        SLACK_CHANNEL: {{slack-channel}}
+        AWS_DEFAULT_REGION: {{aws-region}}
+        NO_ELB_CHECK: 1
+    - task: run-cert-checker-production-bosh
+      file: cert-check-src/check.yml
+      params:
+        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
+        BOSH_ENVIRONMENT: {{production-bosh-target}}
+        BOSH_USERNAME: {{production-bosh-username}}
+        BOSH_PASSWORD: {{production-bosh-password}}
+        SLACK_WEBHOOK: {{slack-webhook-url}}
+        SLACK_CHANNEL: {{slack-channel}}
+        AWS_DEFAULT_REGION: {{aws-region}}
+        NO_ELB_CHECK: 1
+    - task: run-cert-checker-elbs
+      file: cert-check-src/check.yml
+      params:
+        SLACK_WEBHOOK: {{slack-webhook-url}}
+        SLACK_CHANNEL: {{slack-channel}}
+        AWS_DEFAULT_REGION: {{aws-region}}
+        NO_BOSH_CHECK: 1
+  on_failure:
+    put: slack
+    params:
+      text: |
+        :x: FAILED to run cg-cert-check
+        <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+      channel: {{slack-channel}}
+      username: {{slack-username}}
+
+resources:
+- name: schedule
+  type: time
+  source:
+    interval: {{schedule-interval}}
+
+- name: cert-check-src
+  type: git
+  source:
+    uri: {{cert-check-git-url}}
+    branch: {{cert-check-git-branch}}
+
+- name: master-bosh-root-cert
+  type: s3-iam
+  source:
+    bucket: {{production-bucket-name}}
+    region_name: {{aws-region}}
+    versioned_file: master-bosh.crt
+
+- name: slack
+  type: slack-notification
+  source:
+    url: {{slack-webhook-url}}
+
+resource_types:
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+- name: s3-iam
+  type: docker-image
+  source:
+    repository: 18fgsa/s3-resource
