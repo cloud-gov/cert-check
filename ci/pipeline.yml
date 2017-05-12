@@ -78,6 +78,29 @@ jobs:
       channel: {{slack-channel}}
       username: {{slack-username}}
 
+- name: pull-status-check
+  plan:
+  - get: pull-request
+    version: every
+    trigger: true
+  - put: pull-request
+    params:
+      path: pull-request
+      status: pending
+  - task: run-cert-check-tooling-bosh
+    file: pull-request/pr-test.yml
+    on_success:
+      put: pull-request
+      params:
+        path: pull-request
+        status: success
+    on_failure:
+      put: pull-request
+      params:
+        path: pull-request
+        status: failure
+
+
 resources:
 - name: schedule
   type: time
@@ -102,6 +125,13 @@ resources:
   source:
     url: {{slack-webhook-url}}
 
+- name: pull-request
+  type: pull-request
+  source:
+    repo: {{github-repo}}
+    access_token: {{status-access-token}}
+    every: true
+
 resource_types:
 - name: slack-notification
   type: docker-image
@@ -111,3 +141,7 @@ resource_types:
   type: docker-image
   source:
     repository: 18fgsa/s3-resource
+- name: pull-request
+  type: docker-image
+  source:
+    repository: jtarchie/pr
