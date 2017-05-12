@@ -100,7 +100,6 @@ jobs:
         path: pull-request
         status: failure
 
-
 resources:
 - name: schedule
   type: time
