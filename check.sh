@@ -2,7 +2,8 @@
 
 set -e
 
-check_path=$(dirname $0)
-pip3 install -r ${check_path}/requirements.txt
+cd $(dirname $0)
+
+pip3 install -r requirements.txt
 
 python3 -m certcheck
