@@ -2,8 +2,7 @@
 
 set -e
 
-cd $(dirname $0)
-
-pip3 install -r requirements.txt
+export PYTHONPATH=$(dirname $0)
+pip3 install -r ${PYTHONPATH}/requirements.txt
 
 python3 -m certcheck
