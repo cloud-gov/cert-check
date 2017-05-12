@@ -1,10 +1,11 @@
 import requests
 import yaml
 
+
 class BoshDirector(object):
     def __init__(self, hostname, username, password, port=25555, ca_cert=None):
         """Basic wrapper around the bosh director api. Basic auth and password grant is supported.
-q
+
         Args:
             hostname(str): The hostname or ip of the bosh directory
             username(str): The username to authenticate as
@@ -18,11 +19,11 @@ q
             requests.exceptions.HTTPError: Error communicating with the director or UAA
         """
 
-        self.bosh_target="https://{0}:{1}".format(hostname, port)
-        self.ca_cert=ca_cert
-        self.token=None
-        self.username=None
-        self.password=None
+        self.bosh_target = "https://{0}:{1}".format(hostname, port)
+        self.ca_cert = ca_cert
+        self.token = None
+        self.username = None
+        self.password = None
 
         # figure out how to auth
         info = self._request('/info')
@@ -47,14 +48,13 @@ q
 
         # if it's basic, just stash the user/pass for later
         elif info['user_authentication']['type'] == 'basic':
-            self.username=username
-            self.password=password
+            self.username = username
+            self.password = password
 
         else:
             raise RuntimeError(
                 "Unknown authentication type: {0}".format(info['user_authentication']['type'])
             )
-
 
     def _request(self, endpoint, method='GET'):
         """Make a request to the bosh director
@@ -80,7 +80,7 @@ q
             kwargs['auth'] = (self.username, self.password)
 
         # make the request
-        resp = getattr(requests,method.lower())(self.bosh_target + endpoint, **kwargs)
+        resp = getattr(requests, method.lower())(self.bosh_target + endpoint, **kwargs)
         resp.raise_for_status()
 
         # return the result
@@ -110,5 +110,3 @@ q
             Seee _request()
         """
         return yaml.load(self._request('/deployments/' + name)['manifest'])
-
-

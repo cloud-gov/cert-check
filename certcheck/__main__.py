@@ -131,9 +131,9 @@ if __name__ == "__main__":
         )
 
     attachments = []
-
     certificates = []
 
+    # get certificages from bosh unless not allowed
     if args.no_bosh_check is False:
         certificates = certificates + list(bosh_certificates(
             get_env('BOSH_ENVIRONMENT'),
@@ -142,9 +142,11 @@ if __name__ == "__main__":
             ca_cert=get_env('BOSH_CA_CERT')
         ))
 
+    # get certificates from AWS unless not allowed
     if args.no_elb_check is False:
         certificates = certificates + list(aws_elb_certificates())
 
+    # look for expired/expiring soon cert
     for source, location, not_after in certificates:
         expires = (not_after-datetime.datetime.utcnow()).days
 
@@ -172,4 +174,3 @@ if __name__ == "__main__":
 
         for attachment in attachments:
             print(attachment['text'])
-
