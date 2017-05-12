@@ -56,9 +56,6 @@ q
             )
 
 
-        print(self.deployments())
-        print(self.manifest('admin-ui'))
-
     def _request(self, endpoint, method='GET'):
         """Make a request to the bosh director
 

@@ -51,8 +51,8 @@ def bosh_certificates(hostname, username, password, ca_cert=None):
             key = ".".join(item)
 
             if isinstance(value, str) and value.strip().startswith('-----BEGIN CERTIFICATE-----'):
-                for item in pem.parse(value):
-                    cert = crypto.load_certificate(crypto.FILETYPE_PEM, item)
+                for entry in pem.parse(value.encode('utf-8')):
+                    cert = crypto.load_certificate(crypto.FILETYPE_PEM, str(entry))
 
                     not_after = datetime.datetime.strptime(
                         cert.get_notAfter().decode('utf-8'),

@@ -1,13 +1,13 @@
 ---
 jobs:
-- name: run-cert-checker
+- name: run-cert-check
   plan:
   - get: schedule
     trigger: true
   - get: master-bosh-root-cert
   - get: cert-check-src
   - aggregate:
-    - task: run-cert-checker-master-bosh
+    - task: run-cert-check-master-bosh
       file: cert-check-src/check.yml
       params:
         BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
@@ -18,7 +18,7 @@ jobs:
         SLACK_CHANNEL: {{slack-channel}}
         AWS_DEFAULT_REGION: {{aws-region}}
         NO_ELB_CHECK: 1
-    - task: run-cert-checker-tooling-bosh
+    - task: run-cert-check-tooling-bosh
       file: cert-check-src/check.yml
       params:
         BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
@@ -29,7 +29,7 @@ jobs:
         SLACK_CHANNEL: {{slack-channel}}
         AWS_DEFAULT_REGION: {{aws-region}}
         NO_ELB_CHECK: 1
-    - task: run-cert-checker-dev-bosh
+    - task: run-cert-check-dev-bosh
       file: cert-check-src/check.yml
       params:
         BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
@@ -40,7 +40,7 @@ jobs:
         SLACK_CHANNEL: {{slack-channel}}
         AWS_DEFAULT_REGION: {{aws-region}}
         NO_ELB_CHECK: 1
-    - task: run-cert-checker-staging-bosh
+    - task: run-cert-check-staging-bosh
       file: cert-check-src/check.yml
       params:
         BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
@@ -51,7 +51,7 @@ jobs:
         SLACK_CHANNEL: {{slack-channel}}
         AWS_DEFAULT_REGION: {{aws-region}}
         NO_ELB_CHECK: 1
-    - task: run-cert-checker-production-bosh
+    - task: run-cert-check-production-bosh
       file: cert-check-src/check.yml
       params:
         BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
@@ -62,7 +62,7 @@ jobs:
         SLACK_CHANNEL: {{slack-channel}}
         AWS_DEFAULT_REGION: {{aws-region}}
         NO_ELB_CHECK: 1
-    - task: run-cert-checker-elbs
+    - task: run-cert-check-elbs
       file: cert-check-src/check.yml
       params:
         SLACK_WEBHOOK: {{slack-webhook-url}}
