@@ -2,4 +2,6 @@ engines:
   radon:
     enabled: true
     config:
+      # moderate complexity is ok as long as covered by tests IMO
+      # http://radon.readthedocs.io/en/latest/commandline.html
       threshold: "C"
