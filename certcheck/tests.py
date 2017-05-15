@@ -187,7 +187,47 @@ class TestBoshCertificates(unittest.TestCase):
             bx56xd/e3o7RYcPfLD45y7RRXKz3AmE=
             -----END CERTIFICATE-----
 
+        this-is-a-broken-pem-format: |
+            -----BEGIN CERTIFICATE-----
+            MIIDQzCCAqygAwIBAgIJAMGs6m/j+u8sMA0GCSqGSIb3DQEBBQUAMHUxCzAJBgNV
+            BAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdTZWF0dGxlMRMw
+            EQYDVQQKEwpBbWF6b24uY29tMQwwCgYDVQQLEwNSRFMxHDAaBgNVBAMTE2F3cy5h
+            bWF6b24uY29tL3Jkcy8wHhcNMTIwODE2MDY0MjAwWhcNMTcwODE1MDY0MjAwWjB1
+            MQswCQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHU2Vh
+            dHRsZTETMBEGA1UEChMKQW1hem9uLmNvbTEMMAoGA1UECxMDUkRTMRwwGgYDVQQD
+            ExNhd3MuYW1hem9uLmNvbS9yZHMvMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKB
+            gQCnTB7AkRR4xuhfAuOt5foNeCRBPeUujkzmJu1yfnTbtFi+g7zmovQ9BJcRoPYL
+            45McnXyaT/7UjhJhCI5gnYlTIyBTRFh7lXFJryypFx8AIh6q3D/ht8b6cVro3sJ2
+            k4x1w/c7akKKsZJtf0ZyhbMvNnBz3K3TWVB6c9DChbfyUQIDAQABo4HaMIHXMB0G
+            A1UdDgQWBBS/OwyfNJHDnAmnZBbq9ACiXz7O1jCBpwYD
+
         this-is-not-a-certificate: some-random-string
+
+        this-is-not-an-asn1-cert: MII is what nintendo calls avatars
+
+        this-is-a-cert-without-pem: |
+            MIID9DCCAtygAwIBAgIBQjANBgkqhkiG9w0BAQUFADCBijELMAkGA1UEBhMCVVMx
+            EzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxIjAgBgNVBAoM
+            GUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAsMCkFtYXpvbiBSRFMx
+            GzAZBgNVBAMMEkFtYXpvbiBSRFMgUm9vdCBDQTAeFw0xNTAyMDUwOTExMzFaFw0y
+            MDAzMDUwOTExMzFaMIGKMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3Rv
+            bjEQMA4GA1UEBwwHU2VhdHRsZTEiMCAGA1UECgwZQW1hem9uIFdlYiBTZXJ2aWNl
+            cywgSW5jLjETMBEGA1UECwwKQW1hem9uIFJEUzEbMBkGA1UEAwwSQW1hem9uIFJE
+            UyBSb290IENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuD8nrZ8V
+            u+VA8yVlUipCZIKPTDcOILYpUe8Tct0YeQQr0uyl018StdBsa3CjBgvwpDRq1HgF
+            Ji2N3+39+shCNspQeE6aYU+BHXhKhIIStt3r7gl/4NqYiDDMWKHxHq0nsGDFfArf
+            AOcjZdJagOMqb3fF46flc8k2E7THTm9Sz4L7RY1WdABMuurpICLFE3oHcGdapOb9
+            T53pQR+xpHW9atkcf3pf7gbO0rlKVSIoUenBlZipUlp1VZl/OD/E+TtRhDDNdI2J
+            P/DSMM3aEsq6ZQkfbz/Ilml+Lx3tJYXUDmp+ZjzMPLk/+3beT8EhrwtcG3VPpvwp
+            BIOqsqVVTvw/CwIDAQABo2MwYTAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUw
+            AwEB/zAdBgNVHQ4EFgQUTgLurD72FchM7Sz1BcGPnIQISYMwHwYDVR0jBBgwFoAU
+            TgLurD72FchM7Sz1BcGPnIQISYMwDQYJKoZIhvcNAQEFBQADggEBAHZcgIio8pAm
+            MjHD5cl6wKjXxScXKtXygWH2BoDMYBJF9yfyKO2jEFxYKbHePpnXB1R04zJSWAw5
+            2EUuDI1pSBh9BA82/5PkuNlNeSTB3dXDD2PEPdzVWbSKvUB8ZdooV+2vngL0Zm4r
+            47QPyd18yPHrRIbtBtHR/6CwKevLZ394zgExqhnekYKIqqEX41xsUV0Gm6x4vpjf
+            2u6O/+YE2U+qyyxHE5Wd5oqde0oo9UUpFETJPVb6Q2cEeQib8PBAyi0i6KnF+kIV
+            A9dY7IHSubtCK/i8wxMVqfd5GtbA8mmpeJFwnDvm9rBEsHybl08qlax9syEwsUYr
+            /40NawZfTUU=
 
         these-are-multiple-certs: |
             -----BEGIN CERTIFICATE-----
@@ -242,11 +282,14 @@ class TestBoshCertificates(unittest.TestCase):
 
         output = list(bosh_certificates('bosh-hostname', 'bosh-username', 'bosh-password'))
 
-        # we should find 3 total certs
-        self.assertEqual(len([x[0] for x in output if x[0] == "some-deployment"]), 3)
+        # we should find 4 total certs
+        self.assertEqual(len([x[0] for x in output if x[0] == "some-deployment"]), 4)
 
         # we should find 1 single
         self.assertEqual(len([x[1] for x in output if x[1] == "this-is-a-single-certificate"]), 1)
+
+        # and one without pem
+        self.assertEqual(len([x[1] for x in output if x[1] == "this-is-a-cert-without-pem"]), 1)
 
         # we should find 2 multi
         self.assertEqual(len([x[1] for x in output if x[1] == "these-are-multiple-certs"]), 2)
