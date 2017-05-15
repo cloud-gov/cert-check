@@ -1,5 +1,6 @@
 from certcheck.sources.bosh import BoshDirector
 
+import base64
 import datetime
 
 import boto3
@@ -50,16 +51,30 @@ def bosh_certificates(hostname, username, password, ca_cert=None):
             value = item.pop()
             key = ".".join(item)
 
-            if isinstance(value, str) and value.strip().startswith('-----BEGIN CERTIFICATE-----'):
-                for entry in pem.parse(value.encode('utf-8')):
-                    cert = crypto.load_certificate(crypto.FILETYPE_PEM, str(entry))
+            if isinstance(value, str):
+                value = value.strip()
+                certs = []
+                # if it's pem encoded, iterate through the list
+                if value.startswith('-----BEGIN CERTIFICATE-----'):
+                    for entry in pem.parse(value.encode('utf-8')):
+                        certs.append(crypto.load_certificate(crypto.FILETYPE_PEM, str(entry)))
 
-                    not_after = datetime.datetime.strptime(
-                        cert.get_notAfter().decode('utf-8'),
-                        '%Y%m%d%H%M%SZ'
-                    )
+                # if it's looks like ASN.1 then decode it that way
+                if value.startswith('MII'):
+                    try:
+                        certs.append(crypto.load_certificate(crypto.FILETYPE_ASN1, base64.b64decode(value)))
+                    except ValueError:
+                        # looks like a cert, but we can't decode it?
+                        # just ignore
+                        pass
 
-                    yield (deployment['name'], key, not_after)
+                for cert in certs:
+                        not_after = datetime.datetime.strptime(
+                            cert.get_notAfter().decode('utf-8'),
+                            '%Y%m%d%H%M%SZ'
+                        )
+
+                        yield (deployment['name'], key, not_after)
 
 
 def aws_elb_certificates():
