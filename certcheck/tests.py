@@ -278,6 +278,33 @@ class TestBoshCertificates(unittest.TestCase):
             WJxVcYNHTXIjCcng2zMKd1aCcl2KSFfy56sRfT7J5Wp69QSr+jq8KM55gw8uqAwi
             VPrXn2899T1rcTtFYFP16WXjGuc0
             -----END CERTIFICATE-----
+
+        this-is-a-key-and-not-a-cert: |
+            MIIEpAIBAAKCAQEAu24xlKdbnAVnbzqqr6H9VOvfQ0C9KoB0M8rrpyUkArA3wTgo
+            EbvVU9rEkf7kTmW5jMEpuOIDT2+i8hlpUgWGTB53/XZ6E9o65KveqGrxmHaRL3FG
+            8Vp0v/+64eanUqkwDD0RBS6UlIxBG4gyI7gfClRtqku06iiG+4+Wc8iklEjXJw1+
+            VCsr8zIdsM/Lz9eYDgVNt6DcTBiUT5Qaq59XZrTaSmDkOFD5zdgJwHCme6SFd0QD
+            vifEdjsOn/2qYe9AcXXsnzO7L+1rn2IeYpKXstCtcJoB7zG5BtvyYg1cAUBICvI3
+            ns+yuFA/Tevsfy8AGe+0qvKXdfURcIBzvt4v4QIDAQABAoIBAEx1AQiw1G/qzGzV
+            M7d9jwfLSEH48LGbwMs35bVDM1NdawEI1V+WjcktHq6nmZ5ZZL2ENm7S06Ld2UyF
+            DS+GTWhTrYLZh6b9iLSrX6K4LWGSTFtcDCJ8Uc/Yk/V+z5aqqYz0hDLm83k9VXnT
+            rxBfFVpzYmDrjRtP+PA5fJgyquBJuk7IqH21Q+evpoVaJ6mpE/6O4wtq02uHpJQ9
+            gncrgplvs4/STynr5W/LDFUJ2JWKWW3Ep+b2aRSUdKCrsunmdaGMV8CKklNj+ZiC
+            1odGUGzVy5RBKuHi28KQsRkHFH7ZlyfzLHOII7WekCQbLql737vr+5k28uwIgKmg
+            tNZ8T6ECgYEA+DJ6fUYbQrJf5jOIi443I7f/KxJrzpVUic70YvB7HqyctG0eCDqk
+            ZT0f/nO5bEYqotsDZKRF03cmVdhCon/cV8sSQ3tJHvy9nrDTEG7gsSgXLSRguuWu
+            +rqYCXTyB5DaouKb5HzGVLYXP8m1p/o1vcaQcNYIXle4fNFKSbFbVu0CgYEAwVKo
+            MVoTzXlmPOFqcSb60LBQxekBWvL35xKxT7Fa8KZ2BQr/HEzHiGgwfNRsLPshmyKj
+            gSu1s2BHrDmfTZ45wLf9arKOBdc8n2dc+25kNIkYOKG/cWjehXsCljtqhsUuOGFx
+            uhXeoMYLqyC+rWz9nS7aR9KrQE9KHTXOlnV0ikUCgYA8cz72KA8XrY5B6SdGpjqz
+            zmqtuOzdAe33KprHRj8Wd4ArSbBY3L+RkNOsC8+LmYNk6ubmqkP/fzOtEOEZ5v5p
+            u6IVIX/rti8Q6YxeokLDozoR2pxcqPh3RN8m3n7cbOFzbrH9co5zr232MVC3Ou+/
+            6w7fDKI5KDBc5jSrwjC2+QKBgQCdOdA4cv3v+m+/y8R5yi3qU7sdembzxO8BKx6x
+            pZhEZ91MNKlOJtOQiMwGeeyQmJ24Qe+gOiBIhmFEHIkG40wtBHZBtH31GhvfuHzS
+            r/EnGOhuBn5gid2PyX9NF32Hpg31JKsNoIOzVd5fiv4Ipb+NenFkQF2uq82m+//M
+            NjJV0QKBgQDtIjrAzT3Wgzcb0Pr6Oc+FSr/NzqGvEF+aoQD4Go9DiR7Rk2cHGU4g
+            gVrf3JaBLHAl3Ep73s/qKkZSMfog8W4CfhGNMH6OPsWW0xWVLdrbrqAgyCK0TjQY
+            7+dKmCQs+OVFRSiX86SDXRBPhi74fATarSHbzmfgVuJGRK22dGDvdw==
         """)
 
         output = list(bosh_certificates('bosh-hostname', 'bosh-username', 'bosh-password'))
