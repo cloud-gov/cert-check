@@ -62,7 +62,9 @@ def bosh_certificates(hostname, username, password, ca_cert=None):
                 # if it's looks like ASN.1 then decode it that way
                 if value.startswith('MII'):
                     try:
-                        certs.append(crypto.load_certificate(crypto.FILETYPE_ASN1, base64.b64decode(value)))
+                        certs.append(
+                            crypto.load_certificate(crypto.FILETYPE_ASN1, base64.b64decode(value))
+                        )
                     except ValueError:
                         # looks like a cert, but we can't decode it?
                         # just ignore
