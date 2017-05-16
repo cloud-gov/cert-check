@@ -65,7 +65,7 @@ def bosh_certificates(hostname, username, password, ca_cert=None):
                         certs.append(
                             crypto.load_certificate(crypto.FILETYPE_ASN1, base64.b64decode(value))
                         )
-                    except ValueError:
+                    except (ValueError, crypto.Error):
                         # looks like a cert, but we can't decode it?
                         # just ignore
                         pass
