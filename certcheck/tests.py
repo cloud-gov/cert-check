@@ -73,6 +73,20 @@ class TestBoshDirector(unittest.TestCase):
             verify='foo'
         )
 
+    @patch('certcheck.sources.bosh.requests.get')
+    def test_bosh_director_manifest(self, mock_get):
+        mock_get.return_value.json.side_effect = [
+            {
+                'user_authentication': {
+                    'type': 'basic'
+                }
+            },
+            {"manifest": None}
+        ]
+
+        b = BoshDirector('hostname', 'username', 'password', ca_cert='foo')
+        self.assertEqual(b.manifest('some-deployment'), {})
+
 
 class TestAWSCertificates(unittest.TestCase):
 
