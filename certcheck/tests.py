@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import unittest
 import yaml
 
-from mock import patch
+from unittest.mock import patch
 
 
 class TestBoshDirector(unittest.TestCase):
