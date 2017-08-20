@@ -93,7 +93,7 @@ class BoshDirector(object):
             list: A list of dicts descriping the deployments on the director
 
         Raises:
-            Seee _request()
+            See _request()
         """
         return self._request('/deployments')
 
@@ -107,6 +107,7 @@ class BoshDirector(object):
             dict: The result of calling yaml.load() on the returned manifest
 
         Raises:
-            Seee _request()
+            See _request()
         """
-        return yaml.load(self._request('/deployments/' + name)['manifest'])
+        manifest = self._request('/deployments/' + name)['manifest']
+        return yaml.load(manifest) if manifest is not None else {}

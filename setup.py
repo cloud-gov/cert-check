@@ -19,9 +19,5 @@ setup(
 
     install_requires=required,
 
-    tests_require=[
-        'mock'
-    ],
-
     test_suite='certcheck.tests'
 )
