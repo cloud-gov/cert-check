@@ -62,13 +62,6 @@ jobs:
         SLACK_CHANNEL: {{slack-channel}}
         AWS_DEFAULT_REGION: {{aws-region}}
         NO_ELB_CHECK: 1
-    - task: run-cert-check-elbs
-      file: cert-check-src/check.yml
-      params:
-        SLACK_WEBHOOK: {{slack-webhook-url}}
-        SLACK_CHANNEL: {{slack-channel}}
-        AWS_DEFAULT_REGION: {{aws-region}}
-        NO_BOSH_CHECK: 1
   on_failure:
     put: slack
     params:
@@ -129,6 +122,7 @@ resources:
   source:
     repo: {{github-repo}}
     access_token: {{status-access-token}}
+    disable_forks: true
     every: true
 
 resource_types:
