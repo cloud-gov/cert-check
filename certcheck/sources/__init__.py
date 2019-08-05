@@ -71,12 +71,12 @@ def bosh_certificates(hostname, username, password, ca_cert=None):
                         pass
 
                 for cert in certs:
-                        not_after = datetime.datetime.strptime(
-                            cert.get_notAfter().decode('utf-8'),
-                            '%Y%m%d%H%M%SZ'
-                        )
+                    not_after = datetime.datetime.strptime(
+                        cert.get_notAfter().decode('utf-8'),
+                        '%Y%m%d%H%M%SZ'
+                    )
 
-                        yield (deployment['name'], key, not_after)
+                    yield (deployment['name'], key, not_after)
 
 
 def aws_elb_certificates():
