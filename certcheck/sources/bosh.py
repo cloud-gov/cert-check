@@ -104,10 +104,10 @@ class BoshDirector(object):
             name(str): The name of the deployment
 
         Returns:
-            dict: The result of calling yaml.load() on the returned manifest
+            dict: The result of calling yaml.safe_load() on the returned manifest
 
         Raises:
             See _request()
         """
         manifest = self._request('/deployments/' + name)['manifest']
-        return yaml.load(manifest) if manifest is not None else {}
+        return yaml.safe_load(manifest) if manifest is not None else {}

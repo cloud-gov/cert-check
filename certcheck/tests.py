@@ -142,7 +142,7 @@ class TestBoshCertificates(unittest.TestCase):
 
     def test_dict_generator(self):
         """Complex datastructures can be flattened into a list"""
-        output = list(dict_generator(yaml.load("""---
+        output = list(dict_generator(yaml.safe_load("""---
         this:
             is:
                 a:
@@ -178,7 +178,7 @@ class TestBoshCertificates(unittest.TestCase):
     def test_bosh_certificates(self, mock_bosh):
         """Single and multiple certificates can be extracted from a manifest"""
         mock_bosh.return_value.deployments.return_value = [{"name": "some-deployment"}]
-        mock_bosh.return_value.manifest.return_value = yaml.load("""---
+        mock_bosh.return_value.manifest.return_value = yaml.safe_load("""---
         this-is-a-single-certificate: |
             -----BEGIN CERTIFICATE-----
             MIIDQzCCAqygAwIBAgIJAMGs6m/j+u8sMA0GCSqGSIb3DQEBBQUAMHUxCzAJBgNV
