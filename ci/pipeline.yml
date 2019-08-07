@@ -6,7 +6,7 @@ jobs:
     trigger: true
   - get: master-bosh-root-cert
   - get: cert-check-src
-  - aggregate:
+  - in_parallel:
     - task: run-cert-check-master-bosh
       file: cert-check-src/check.yml
       params:
