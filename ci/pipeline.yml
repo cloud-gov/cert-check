@@ -104,6 +104,7 @@ resources:
   source:
     uri: {{cert-check-git-url}}
     branch: {{cert-check-git-branch}}
+    commit_verification_keys: ((cloud-gov-pgp-keys))
 
 - name: master-bosh-root-cert
   type: s3-iam
