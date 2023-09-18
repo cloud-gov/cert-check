@@ -10,5 +10,5 @@ run:
   - -exc
   - |
     cd pull-request
-    pip3 install tox
+    pip3 install tox colorama==0.4.4
     tox
