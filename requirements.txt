@@ -1,6 +1,4 @@
 boto3==1.28.50
-awscli
-colorama
 pem
 pyopenssl
 pyaml
