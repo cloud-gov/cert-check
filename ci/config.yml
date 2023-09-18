@@ -1,0 +1,9 @@
+aws-region: us-gov-west-1
+
+cert-check-git-branch: main
+cert-check-git-url: https://github.com/cloud-gov/cg-cert-check
+github-repo: cloud-gov/cg-cert-check
+
+schedule-interval: 24h
+
+slack-username: cg-cert-check
