@@ -1,4 +1,4 @@
-# cg-cert-check
+# cg-cert-check 
 
 ```
 usage: certificate-check.py [-h] [--slack-icon-emoji SLACK_ICON_EMOJI]
