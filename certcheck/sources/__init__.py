@@ -38,7 +38,8 @@ def bosh_certificates(hostname, username, password, ca_cert=None):
         hostname(str): the hostname or ip of the bosh director
         username(str): the username to authenticate with
         password(str): the password to authenticate with
-        ca_cert(str, optional): The path to a pem encoded file
+        ca_cert(str, optional): Either a path to a pem encoded file, or the
+            raw pem-encoded certificate content (e.g. from credhub)
 
     Yields:
         list of tuples: (source(str), location(str), not_after(datetime.datetime))
