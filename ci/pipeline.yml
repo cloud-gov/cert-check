@@ -121,7 +121,7 @@ resources:
   type: git
   source:
     uri: ((cert-check-git-url))
-    branch: test #((cert-check-git-branch))
+    branch: test2 #((cert-check-git-branch))
     commit_verification_keys: ((cloud-gov-pgp-keys))
 
 - name: slack
