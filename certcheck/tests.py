@@ -1,6 +1,8 @@
 from certcheck.sources import BoshDirector, dict_generator, bosh_certificates, aws_elb_certificates
 
 from datetime import datetime, timedelta
+import os
+import stat
 import unittest
 import yaml
 
@@ -86,6 +88,65 @@ class TestBoshDirector(unittest.TestCase):
 
         b = BoshDirector('hostname', 'username', 'password', ca_cert='foo')
         self.assertEqual(b.manifest('some-deployment'), {})
+
+    @patch('certcheck.sources.bosh.requests.get')
+    def test_bosh_director_ca_cert_pem_content(self, mock_get):
+        """A raw PEM-encoded ca_cert (e.g. from credhub) is written to a
+        temp file so `requests` can use it, rather than being passed
+        through as literal cert content."""
+        mock_get.return_value.json.side_effect = [
+            {
+                'user_authentication': {
+                    'type': 'basic'
+                }
+            },
+            {"manifest": "manifest-hurr"}
+        ]
+
+        pem_content = (
+            "-----BEGIN CERTIFICATE-----\n"
+            "MIIFSDCCAzCgAwIBAgIBAfakefakefakefakefake\n"
+            "-----END CERTIFICATE-----\n"
+        )
+
+        b = BoshDirector('hostname', 'username', 'password', ca_cert=pem_content)
+
+        # ca_cert should have been swapped out for a path, not left as raw PEM
+        self.assertNotEqual(b.ca_cert, pem_content)
+        self.assertTrue(os.path.isfile(b.ca_cert))
+
+        with open(b.ca_cert) as f:
+            self.assertEqual(f.read(), pem_content)
+
+        # file should be locked down to the owner only
+        mode = stat.S_IMODE(os.stat(b.ca_cert).st_mode)
+        self.assertEqual(mode, stat.S_IRUSR | stat.S_IWUSR)
+
+        b.manifest('some-deployment')
+        mock_get.assert_called_with(
+            'https://hostname:25555/deployments/some-deployment',
+            auth=('username', 'password'),
+            verify=b.ca_cert
+        )
+
+    @patch('certcheck.sources.bosh.requests.get')
+    def test_bosh_director_ca_cert_path_passthrough(self, mock_get):
+        """A ca_cert that is already a path (e.g. legacy S3-sourced file)
+        is passed through unchanged."""
+        mock_get.return_value.json.side_effect = [
+            {
+                'user_authentication': {
+                    'type': 'basic'
+                }
+            },
+        ]
+
+        b = BoshDirector(
+            'hostname', 'username', 'password',
+            ca_cert='master-bosh-root-cert/master-bosh.crt'
+        )
+
+        self.assertEqual(b.ca_cert, 'master-bosh-root-cert/master-bosh.crt')
 
 
 class TestAWSCertificates(unittest.TestCase):
