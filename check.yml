@@ -2,7 +2,6 @@
 platform: linux
 
 inputs:
-- name: master-bosh-root-cert
 - name: cert-check-src
 
 
