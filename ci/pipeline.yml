@@ -15,7 +15,6 @@ jobs:
   - get: general-task
   - get: schedule
     trigger: true
-  - get: master-bosh-root-cert
   - get: cert-check-src
     passed: [set-self]
   - in_parallel:
@@ -23,10 +22,10 @@ jobs:
       image: general-task
       file: cert-check-src/check.yml
       params:
-        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
-        BOSH_ENVIRONMENT: ((master-bosh-target))
-        BOSH_USERNAME: ((master-bosh-username))
-        BOSH_PASSWORD: ((master-bosh-password))
+        BOSH_CA_CERT: ((bosh-director-info.master.ca_cert))
+        BOSH_ENVIRONMENT: ((bosh-director-info.master.environment))
+        BOSH_CLIENT: ((bosh-director-info.master.client))
+        BOSH_CLIENT_SECRET: ((bosh-director-info.master.client_secret))
         SLACK_WEBHOOK: ((slack-webhook-url))
         SLACK_CHANNEL: ((slack-channel))
         AWS_DEFAULT_REGION: ((aws-region))
@@ -35,10 +34,10 @@ jobs:
       image: general-task
       file: cert-check-src/check.yml
       params:
-        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
-        BOSH_ENVIRONMENT: ((tooling-bosh-target))
-        BOSH_USERNAME: ((tooling-bosh-username))
-        BOSH_PASSWORD: ((tooling-bosh-password))
+        BOSH_CA_CERT: ((bosh-director-info.tooling.ca_cert))
+        BOSH_ENVIRONMENT: ((bosh-director-info.tooling.environment))
+        BOSH_CLIENT: ((bosh-director-info.tooling.client))
+        BOSH_CLIENT_SECRET: ((bosh-director-info.tooling.client_secret))
         SLACK_WEBHOOK: ((slack-webhook-url))
         SLACK_CHANNEL: ((slack-channel))
         AWS_DEFAULT_REGION: ((aws-region))
@@ -47,10 +46,10 @@ jobs:
       image: general-task
       file: cert-check-src/check.yml
       params:
-        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
-        BOSH_ENVIRONMENT: ((dev-bosh-target))
-        BOSH_USERNAME: ((dev-bosh-username))
-        BOSH_PASSWORD: ((dev-bosh-password))
+        BOSH_CA_CERT: ((bosh-director-info.development.ca_cert))
+        BOSH_ENVIRONMENT: ((bosh-director-info.development.environment))
+        BOSH_CLIENT: ((bosh-director-info.development.client))
+        BOSH_CLIENT_SECRET: ((bosh-director-info.development.client_secret))
         SLACK_WEBHOOK: ((slack-webhook-url))
         SLACK_CHANNEL: ((slack-channel))
         AWS_DEFAULT_REGION: ((aws-region))
@@ -59,10 +58,10 @@ jobs:
       image: general-task
       file: cert-check-src/check.yml
       params:
-        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
-        BOSH_ENVIRONMENT: ((staging-bosh-target))
-        BOSH_USERNAME: ((staging-bosh-username))
-        BOSH_PASSWORD: ((staging-bosh-password))
+        BOSH_CA_CERT: ((bosh-director-info.staging.ca_cert))
+        BOSH_ENVIRONMENT: ((bosh-director-info.staging.environment))
+        BOSH_CLIENT: ((bosh-director-info.staging.client))
+        BOSH_CLIENT_SECRET: ((bosh-director-info.staging.client_secret))
         SLACK_WEBHOOK: ((slack-webhook-url))
         SLACK_CHANNEL: ((slack-channel))
         AWS_DEFAULT_REGION: ((aws-region))
@@ -71,10 +70,10 @@ jobs:
       image: general-task
       file: cert-check-src/check.yml
       params:
-        BOSH_CA_CERT: master-bosh-root-cert/master-bosh.crt
-        BOSH_ENVIRONMENT: ((production-bosh-target))
-        BOSH_USERNAME: ((production-bosh-username))
-        BOSH_PASSWORD: ((production-bosh-password))
+        BOSH_CA_CERT: ((bosh-director-info.production.ca_cert))
+        BOSH_ENVIRONMENT: ((bosh-director-info.production.environment))
+        BOSH_CLIENT: ((bosh-director-info.production.client))
+        BOSH_CLIENT_SECRET: ((bosh-director-info.production.client_secret))
         SLACK_WEBHOOK: ((slack-webhook-url))
         SLACK_CHANNEL: ((slack-channel))
         AWS_DEFAULT_REGION: ((aws-region))
@@ -124,13 +123,6 @@ resources:
     uri: ((cert-check-git-url))
     branch: ((cert-check-git-branch))
     commit_verification_keys: ((cloud-gov-pgp-keys))
-
-- name: master-bosh-root-cert
-  type: s3-iam
-  source:
-    bucket: ((production-bucket-name))
-    region_name: ((aws-region))
-    versioned_file: master-bosh.crt
 
 - name: slack
   type: slack-notification
